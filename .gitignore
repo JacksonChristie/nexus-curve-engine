@@ -1,0 +1,25 @@
+# Local Operating System Metadata
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+desktop.ini
+
+# Private Data & Spreadsheets
+*.csv
+*.xlsx
+*.xls
+*.ods
+*.log
+
+# Environment Files & API Tokens
+.env
+.env.local
+secrets.json
+config.private.json
+
+# IDE and Code Editor Project Files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
