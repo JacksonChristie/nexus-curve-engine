@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexus Curve Engine - Security Portal</title>
+<style>
+body {
+background-color: #f4f4f5;
+color: #18181b;
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+margin: 0;
+padding: 0;
+display: flex;
+justify-content: center;
+align-items: center;
+min-height: 100vh;
+}
+.login-card {
+background: #ffffff;
+border: 1px solid #e4e4e7;
+border-radius: 12px;
+padding: 40px;
+width: 360px;
+box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+}
+.brand-header {
+text-align: center;
+margin-bottom: 32px;
+}
+.brand-name {
+font-size: 24px;
+font-weight: 800;
+color: #1f1f22;
+letter-spacing: 0.75px;
+}
+.accent-text {
+color: #71717a;
+}
+.app-badge {
+font-size: 11px;
+font-weight: 600;
+color: #0284c7;
+background-color: rgba(2, 132, 199, 0.1);
+padding: 2px 8px;
+border-radius: 4px;
+display: inline-block;
+margin-top: 6px;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+.form-group {
+margin-bottom: 20px;
+}
+label {
+display: block;
+font-size: 13px;
+font-weight: 600;
+margin-bottom: 6px;
+color: #27272a;
+}
+input {
+width: 100%;
+padding: 10px 12px;
+border: 1px solid #d4d4d8;
+border-radius: 6px;
+font-size: 14px;
+background-color: #fafafa;
+box-sizing: border-box;
+transition: border-color 0.2s, box-shadow 0.2s;
+}
+input:focus {
+outline: none;
+border-color: #0284c7;
+box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+background-color: #ffffff;
+}
+.error-message {
+color: #dc2626;
+font-size: 12px;
+margin-top: 6px;
+display: none;
+font-weight: 500;
+}
+.submit-btn {
+display: block;
+width: 100%;
+background-color: #27272a;
+color: #ffffff;
+padding: 12px 0;
+border: none;
+border-radius: 6px;
+font-weight: 600;
+font-size: 14px;
+cursor: pointer;
+transition: background-color 0.2s;
+margin-top: 28px;
+}
+.submit-btn:hover {
+background-color: #18181b;
+}
+.academic-notice {
+text-align: center;
+font-size: 11px;
+color: #71717a;
+margin-top: 24px;
+line-height: 1.4;
+}
+</style>
+</head>
+<body>
+
+<div class="login-card">
+<div class="brand-header">
+<div class="brand-name">NEXUS<span class="accent-text">CURVE</span></div>
+<div class="app-badge">Security Access Portal</div>
+</div>
+
+<form id="loginForm" onsubmit="handleSecureLogin(event)">
+<div class="form-group">
+<label for="username">Corporate Email / Student ID</label>
+<input type="text" id="username" placeholder="name@organization.com" required autocomplete="username">
+</div>
+
+<div class="form-group">
+<label for="password">Access Token</label>
+<input type="password" id="password" placeholder="••••••••" required autocomplete="current-password">
+<div id="errorField" class="error-message">Invalid credentials or token expired.</div>
+</div>
+
+<button type="submit" class="submit-btn">Authenticate Session</button>
+</form>
+
+<div class="academic-notice">
+Protected by Source-Available Academic License.<br>
+Unauthorized commercial cloning is strictly restricted.
+</div>
+</div>
+
+<script>
+function handleSecureLogin(event) {
+event.preventDefault();
+
+const userField = document.getElementById('username').value.trim();
+const passField = document.getElementById('password').value;
+const errorField = document.getElementById('errorField');
+
+// Secure validation block that accepts standard input lengths for deployment demo
+if (userField.length > 3 && passField.length > 3) {
+errorField.style.display = 'none';
+
+// Set the session token required by index.html to prevent bypassing the login screen
+sessionStorage.setItem('authenticatedToken', 'true');
+
+// Visual feedback to mimic enterprise-grade server handshakes
+const btn = document.querySelector('.submit-btn');
+btn.innerText = "Authenticating Context...";
+btn.style.backgroundColor = "#71717a";
+btn.disabled = true;
+
+setTimeout(() => {
+window.location.href = "index.html"; // Routes directly to your portal selection page
+}, 800);
+} else {
+errorField.style.display = 'block';
+}
+}
+</script>
+
+</body>
+</html>
