@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gompertz Model - 10K to 100M Users</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+body {
+font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+background: linear-gradient(135deg, #764ba2 0%, #f093fb 100%);
+min-height: 100vh;
+padding: 20px;
+}
+.container {
+max-width: 1400px;
+margin: 0 auto;
+background: white;
+border-radius: 12px;
+box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+overflow: hidden;
+}
+.header {
+background: linear-gradient(135deg, #764ba2 0%, #f093fb 100%);
+color: white;
+padding: 30px;
+text-align: center;
+}
+.header h1 {
+font-size: 28px;
+margin-bottom: 8px;
+}
+.header p {
+opacity: 0.9;
+font-size: 14px;
+}
+.content {
+display: grid;
+grid-template-columns: 320px 1fr;
+gap: 0;
+}
+.controls {
+background: #f8f9fa;
+padding: 30px;
+border-right: 1px solid #e0e0e0;
+max-height: 100vh;
+overflow-y: auto;
+}
+.control-group {
+margin-bottom: 25px;
+}
+.control-group label {
+display: block;
+font-weight: 600;
+margin-bottom: 8px;
+font-size: 14px;
+color: #333;
+}
+.control-group small {
+display: block;
+color: #666;
+font-size: 12px;
+margin-bottom: 10px;
+}
+.value-display {
+background: white;
+padding: 6px 12px;
+border-radius: 4px;
+font-weight: 600;
+color: #764ba2;
+font-size: 14px;
+border: 1px solid #e0e0e0;
+float: right;
+}
+input[type="range"] {
+width: 100%;
+height: 6px;
+border-radius: 3px;
+background: #ddd;
+outline: none;
+margin: 10px 0;
+}
+input[type="range"]::-webkit-slider-thumb {
+-webkit-appearance: none;
+width: 18px;
+height: 18px;
+border-radius: 50%;
+background: #764ba2;
+cursor: pointer;
+}
+input[type="range"]::-moz-range-thumb {
+width: 18px;
+height: 18px;
+border-radius: 50%;
+background: #764ba2;
+cursor: pointer;
+border: none;
+}
+.button-group {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 10px;
+margin-bottom: 20px;
+}
+.btn {
+padding: 10px 12px;
+border: none;
+border-radius: 4px;
+background: #764ba2;
+color: white;
+font-size: 12px;
+font-weight: 600;
+cursor: pointer;
+transition: background 0.2s;
+}
+.btn:hover {
+background: #5a3682;
+}
+.btn.secondary {
+background: #e0e0e0;
+color: #333;
+}
+.btn.secondary:hover {
+background: #d0d0d0;
+}
+.main-content {
+padding: 30px;
+overflow-y: auto;
+max-height: 100vh;
+}
+.chart-box {
+background: #f8f9fa;
+padding: 20px;
+border-radius: 8px;
+margin-bottom: 30px;
+border: 1px solid #e0e0e0;
+}
+.chart-box h3 {
+font-size: 14px;
+font-weight: 600;
+color: #333;
+margin-bottom: 15px;
+}
+.metrics-row {
+display: grid;
+grid-template-columns: 1fr 1fr 1fr;
+gap: 20px;
+margin-bottom: 30px;
+}
+.metric-card {
+background: linear-gradient(135deg, #764ba2 0%, #f093fb 100%);
+color: white;
+padding: 20px;
+border-radius: 8px;
+text-align: center;
+}
+.metric-card .label {
+font-size: 12px;
+opacity: 0.9;
+margin-bottom: 8px;
+}
+.metric-card .value {
+font-size: 24px;
+font-weight: 700;
+}
+.table-container {
+background: #f8f9fa;
+padding: 20px;
+border-radius: 8px;
+margin-bottom: 30px;
+overflow-x: auto;
+border: 1px solid #e0e0e0;
+}
+table {
+width: 100%;
+border-collapse: collapse;
+font-size: 12px;
+}
+table thead {
+background: #e0e0e0;
+}
+table th {
+padding: 10px;
+text-align: left;
+font-weight: 600;
+color: #333;
+border-bottom: 2px solid #ccc;
+}
+table td {
+padding: 8px 10px;
+border-bottom: 1px solid #e0e0e0;
+}
+table tr:hover {
+background: #f0f0f0;
+}
+table tr:nth-child(even) {
+background: #ffffff;
+}
+.export-btn {
+background: #28a745;
+color: white;
+padding: 10px 16px;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+font-weight: 600;
+font-size: 13px;
+margin-bottom: 15px;
+}
+.export-btn:hover {
+background: #218838;
+}
+.info-box {
+background: #fff3cd;
+border-left: 4px solid #764ba2;
+padding: 12px;
+border-radius: 4px;
+font-size: 12px;
+color: #856404;
+margin-bottom: 20px;
+line-height: 1.5;
+}
+.hockey-stick-warning {
+background: #ffe5e5;
+border-left: 4px solid #d32f2f;
+padding: 12px;
+border-radius: 4px;
+font-size: 12px;
+color: #c62828;
+margin-bottom: 20px;
+line-height: 1.5;
+}
+@media (max-width: 1024px) {
+.content {
+grid-template-columns: 1fr;
+}
+.controls {
+border-right: none;
+max-height: none;
+}
+.main-content {
+max-height: none;
+}
+.metrics-row {
+grid-template-columns: 1fr;
+}
+}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<h1>Gompertz Model Forecaster - 10K to 100M Users</h1>
+<p>Hockey-stick adoption patterns (Starting: 10K users, Maximum: 100M users)</p>
+</div>
+
+<div class="content">
+<div class="controls">
+<div class="info-box">
+📊 For enterprise AI, regulated tech, and markets with competitive pressure
+</div>
+
+<div class="hockey-stick-warning">
+⚠️ Gompertz shows explosive growth in middle months - plan infrastructure early
+</div>
+
+<div style="margin-bottom: 20px;">
+<strong style="font-size: 13px; color: #333; display: block; margin-bottom: 12px;">Quick Scenarios</strong>
+<div class="button-group">
+<button class="btn" onclick="setScenario('conservative')">Conservative</button>
+<button class="btn" onclick="setScenario('moderate')">Moderate</button>
+<button class="btn" onclick="setScenario('aggressive')">Aggressive</button>
+<button class="btn secondary" onclick="setScenario('enterprise_ai')">Enterprise AI</button>
+</div>
+</div>
+
+<div class="control-group">
+<label>Market Potential (m)</label>
+<small>Total addressable market - Min 10K, Max 100M</small>
+<input type="range" id="m-slider" min="10" max="100000" value="50000" step="10">
+<div style="text-align: right; margin-top: 8px;">
+<span class="value-display" id="m-value">50M</span>
+</div>
+</div>
+
+<div class="control-group">
+<label>Scale (a)</label>
+<small>Steepness of initial phase</small>
+<input type="range" id="a-slider" min="0.1" max="5" value="2" step="0.1">
+<div style="text-align: right; margin-top: 8px;">
+<span class="value-display" id="a-value">2.0</span>
+</div>
+</div>
+
+<div class="control-group">
+<label>Rate (b)</label>
+<small>Speed of adoption</small>
+<input type="range" id="b-slider" min="0.01" max="1" value="0.3" step="0.01">
+<div style="text-align: right; margin-top: 8px;">
+<span class="value-display" id="b-value">0.30</span>
+</div>
+</div>
+
+<div class="control-group">
+<label>Forecast Period</label>
+<small>Months to forecast</small>
+<input type="range" id="t-slider" min="12" max="120" value="60" step="1">
+<div style="text-align: right; margin-top: 8px;">
+<span class="value-display" id="t-value">60</span>
+</div>
+</div>
+</div>
+
+<div class="main-content">
+<div class="metrics-row">
+<div class="metric-card">
+<div class="label">Peak Adoption Month</div>
+<div class="value" id="peak-month">15</div>
+</div>
+<div class="metric-card">
+<div class="label">Peak Monthly Rate</div>
+<div class="value" id="peak-rate">3.2M</div>
+</div>
+<div class="metric-card">
+<div class="label">Total Adoption</div>
+<div class="value" id="total-adoption">85%</div>
+</div>
+</div>
+
+<div class="chart-box">
+<h3>Gompertz Curve (Cumulative Adoption) - 10K to 100M</h3>
+<canvas id="adoptionChart" height="80"></canvas>
+</div>
+
+<div class="chart-box">
+<h3>Monthly Adoption Rate (Hockey Stick Pattern)</h3>
+<canvas id="rateChart" height="80"></canvas>
+</div>
+
+<h3 style="margin: 30px 0 15px 0; font-size: 16px;">Month-by-Month Breakdown</h3>
+<button class="export-btn" onclick="exportToCSV()">📥 Export to CSV</button>
+
+<div class="table-container">
+<table id="dataTable">
+<thead>
+<tr>
+<th>Month</th>
+<th>Cumulative Users</th>
+<th>New Users (This Month)</th>
+<th>% of Market</th>
+<th>Support Team*</th>
+<th>Estimated Revenue**</th>
+</tr>
+</thead>
+<tbody id="tableBody">
+</tbody>
+</table>
+</div>
+
+<div style="font-size: 12px; color: #666; line-height: 1.8; background: #f8f9fa; padding: 15px; border-radius: 4px; margin-top: 15px;">
+<p><strong>*Support Team:</strong> Assumes 1 support person per 400 users (SaaS standard)</p>
+<p><strong>**Estimated Revenue:</strong> Assumes $600/user annual (B2B SaaS average)</p>
+<p><strong>Key Planning Point:</strong> Notice peak happens in middle months. Hire and scale infrastructure 3 months before peak.</p>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+let adoptionChart, rateChart;
+
+const scenarios = {
+conservative: { m: 30000, a: 3, b: 0.15 },
+moderate: { m: 50000, a: 2, b: 0.3 },
+aggressive: { m: 80000, a: 1.5, b: 0.5 },
+enterprise_ai: { m: 100000, a: 1.2, b: 0.4 }
+};
+
+function formatNumber(num) {
+if (num >= 1000000) return (num / 1000000).toFixed(2) + 'M';
+if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+return Math.round(num).toString();
+}
+
+function calculateGompertz(m, a, b, t) {
+const data = [];
+for (let month = 0; month <= t; month++) {
+const exp_bt = Math.exp(-b * month);
+const N_t = m * Math.exp(-a * exp_bt);
+const dN_dt = m * b * a * exp_bt * Math.exp(-a * exp_bt);
+
+data.push({
+month: month,
+cumulative: Math.max(0.01, N_t),
+monthly: Math.max(0, dN_dt)
+});
+}
+return data;
+}
+
+function setScenario(scenario) {
+const s = scenarios[scenario];
+document.getElementById('m-slider').value = s.m;
+document.getElementById('a-slider').value = s.a;
+document.getElementById('b-slider').value = s.b;
+updateCharts();
+}
+
+function updateCharts() {
+const m = parseFloat(document.getElementById('m-slider').value) * 1000;
+const a = parseFloat(document.getElementById('a-slider').value);
+const b = parseFloat(document.getElementById('b-slider').value);
+const t = parseInt(document.getElementById('t-slider').value);
+
+const sliderVal = parseFloat(document.getElementById('m-slider').value);
+if (sliderVal >= 1000) {
+document.getElementById('m-value').textContent = (sliderVal / 1000).toFixed(0) + 'M';
+} else {
+document.getElementById('m-value').textContent = sliderVal.toFixed(0) + 'K';
+}
+document.getElementById('a-value').textContent = a.toFixed(2);
+document.getElementById('b-value').textContent = b.toFixed(2);
+document.getElementById('t-value').textContent = t;
+
+const data = calculateGompertz(m, a, b, t);
+
+let peak = { month: 0, rate: 0 };
+for (let i = 0; i < data.length; i++) {
+if (data[i].monthly > peak.rate) {
+peak = { month: i, rate: data[i].monthly };
+}
+}
+
+const months = data.map(d => d.month);
+const cumulative = data.map(d => d.cumulative);
+const monthly = data.map(d => d.monthly);
+
+const finalAdoption = cumulative[cumulative.length - 1];
+const penetration = (finalAdoption / m * 100).toFixed(1);
+
+document.getElementById('peak-month').textContent = peak.month;
+document.getElementById('peak-rate').textContent = formatNumber(peak.rate);
+document.getElementById('total-adoption').textContent = penetration + '%';
+
+if (adoptionChart) adoptionChart.destroy();
+const ctxAdoption = document.getElementById('adoptionChart').getContext('2d');
+adoptionChart = new Chart(ctxAdoption, {
+type: 'line',
+data: {
+labels: months,
+datasets: [{
+label: 'Gompertz Curve',
+data: cumulative,
+borderColor: '#764ba2',
+backgroundColor: 'rgba(118, 75, 162, 0.1)',
+borderWidth: 3,
+fill: true,
+tension: 0.3,
+pointRadius: 0
+}]
+},
+options: {
+responsive: true,
+maintainAspectRatio: true,
+plugins: { legend: { display: false } },
+scales: {
+y: {
+beginAtZero: true,
+ticks: { callback: (value) => formatNumber(value) }
+}
+}
+}
+});
+
+if (rateChart) rateChart.destroy();
+const ctxRate = document.getElementById('rateChart').getContext('2d');
+rateChart = new Chart(ctxRate, {
+type: 'line',
+data: {
+labels: months,
+datasets: [{
+label: 'Monthly New Adoptions',
+data: monthly,
+borderColor: '#f093fb',
+backgroundColor: 'rgba(240, 147, 251, 0.2)',
+borderWidth: 3,
+fill: true,
+tension: 0.3,
+pointRadius: 0
+}]
+},
+options: {
+responsive: true,
+maintainAspectRatio: true,
+plugins: { legend: { display: false } },
+scales: {
+y: {
+beginAtZero: true,
+ticks: { callback: (value) => formatNumber(value) }
+}
+}
+}
+});
+
+updateTable(data, m);
+}
+
+function updateTable(data, m) {
+const tbody = document.getElementById('tableBody');
+tbody.innerHTML = '';
+
+data.forEach((d, idx) => {
+if (idx % 2 === 0 || idx === 0) {
+const row = tbody.insertRow();
+
+const monthNum = d.month;
+const cumUsers = d.cumulative;
+const newUsers = d.monthly;
+const pctMarket = (cumUsers / m * 100).toFixed(1);
+const supportTeam = Math.ceil(cumUsers / 400);
+const revenueEst = (cumUsers * 600).toFixed(0);
+
+row.insertCell(0).textContent = `Month ${monthNum}`;
+row.insertCell(1).textContent = formatNumber(cumUsers);
+row.insertCell(2).textContent = formatNumber(newUsers);
+row.insertCell(3).textContent = pctMarket + '%';
+row.insertCell(4).textContent = formatNumber(supportTeam);
+row.insertCell(5).textContent = '$' + formatNumber(revenueEst);
+}
+});
+}
+
+function exportToCSV() {
+const table = document.getElementById('dataTable');
+let csv = [];
+
+const headers = [];
+table.querySelectorAll('th').forEach(th => {
+headers.push(th.textContent);
+});
+csv.push(headers.join(','));
+
+table.querySelectorAll('tbody tr').forEach(tr => {
+const row = [];
+tr.querySelectorAll('td').forEach(td => {
+row.push('"' + td.textContent + '"');
+});
+csv.push(row.join(','));
+});
+
+const csvContent = 'data:text/csv;charset=utf-8,' + csv.join('\n');
+const link = document.createElement('a');
+link.setAttribute('href', encodeURI(csvContent));
+link.setAttribute('download', 'gompertz_forecast_10k_100m_' + new Date().toISOString().split('T')[0] + '.csv');
+link.click();
+}
+
+updateCharts();
+
+document.getElementById('m-slider').addEventListener('input', updateCharts);
+document.getElementById('a-slider').addEventListener('input', updateCharts);
+document.getElementById('b-slider').addEventListener('input', updateCharts);
+document.getElementById('t-slider').addEventListener('input', updateCharts);
+</script>
+</body>
+</html>
