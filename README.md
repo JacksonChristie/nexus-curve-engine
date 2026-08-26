@@ -3,6 +3,27 @@
 An interactive, multi-dashboard forecasting application that bridges advanced data analytics with practical revenue operations strategy. This suite hosts individual operational environments for the **Bass Diffusion Method** and the **Gompertz Growth Model**, serving as a predictive command center to optimize sales headcount planning and protect corporate capital.
 
 ---
+# Nexus Curve Engine - Portfolio Portal Matrix
+
+![Visits](https://laobi.icu)
+
+An interactive, multi-dashboard forecasting application that bridges advanced data analytics with practical revenue operations strategy. This suite hosts individual operational environments for the **Bass Diffusion Method** and the **Gompertz Growth Model**, serving as a predictive command center to optimize sales headcount planning and protect corporate capital.
+
+---
+
+## 🔑 Live Sandbox Access Credentials
+
+To test the interactive, secure deployment of the Nexus Curve Engine, navigate to the live URL and use the dedicated onboarding profiles below:
+
+* **For Recruiters & VPs:**
+* Email: `test@organisation.com`
+* Access Token: `nexus2026`
+* **For Students & Researchers:**
+* Email: `student@organization.com`
+* Access Token: `academic2026`
+
+👉 **[Launch Live Interactive Security Portal Matrix Here](https://JacksonChristie.github.io/nexus-curve-engine/login.html)**
+
 
 ## 📊 Overview & Problem Statement
 
@@ -36,14 +57,17 @@ nexus-curve-engine/
 ## ⚙️ Core Environments
 
 ### 1. Bass Diffusion Framework (`bass-dashboard.html`)
-Maps product adoption based on two distinct categories of buyers:
+* **Academic Attribution:** Formulated by **Frank M. Bass** in his seminal 1969 research paper, *"A New Product Growth Model for Consumer Durables"* (Management Science).
+* **The Mathematical Logic:** Maps product adoption based on two distinct categories of buyers:
 * **Innovation Coefficient (p):** Individuals who adopt the product independently of social or market influence.
 * **Imitation Coefficient (q):** Individuals who adopt based on word-of-mouth, network effects, and peer choices.
+* **Strategic Application:** Ideal for established, predictable market verticals like Fintech, Insurtech, and traditional healthcare networks
 
 *Strategic Application:* Ideal for established, predictable market verticals like Fintech, Insurtech, and traditional healthcare networks.
 
 ### 2. Gompertz Growth Framework (`gompertz-dashboard.html`)
-Accounts for asymmetric, exponential acceleration early on, tracking toward an absolute saturation limit:
+* **Academic Attribution:** Developed by British mathematician and actuary **Benjamin Gompertz** in 1825, originally used for demographic time-series analysis and later adapted for modern technological saturation curves.
+* **The Mathematical Logic:** Accounts for asymmetric, exponential acceleration early on, tracking toward a strict saturation limit:
 * **Growth Velocity:** Measures the speed of the explosive mid-market scaling phase.
 * **Asymptote:** Establishes the hard, structural ceiling of market capacity.
 
