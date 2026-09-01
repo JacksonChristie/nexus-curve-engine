@@ -243,6 +243,9 @@ grid-template-columns: 1fr;
 </style>
 </head>
 <body>
+<div style="background-color: #1f1f22; padding: 16px 24px; border-bottom: 1px solid #27272a; display: flex; justify-content: flex-end;">
+<a href="index.html" style="font-size: 13px; font-weight: 600; color: #0284c7; text-decoration: none;">← Return to Portal Matrix</a>
+</div>
 <div class="container">
 <div class="header">
 <h1>Bass Model Forecaster - 10K to 100M Users</h1>
@@ -360,10 +363,10 @@ grid-template-columns: 1fr;
 let adoptionChart, rateChart;
 
 const scenarios = {
-startup: { m: 20000, p: 0.05, q: 0.5 },
+startup: { m: 20000, p: 0.01, q: 0.28 },
 growth: { m: 50000, p: 0.02, q: 0.4 },
 scale: { m: 80000, p: 0.015, q: 0.35 },
-enterprise: { m: 100000, p: 0.008, q: 0.25 }
+enterprise: { m: 100000, p: 0.015, q: 0.35 }
 };
 
 function formatNumber(num) {
