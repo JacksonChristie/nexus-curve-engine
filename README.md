@@ -1,16 +1,18 @@
 # Nexus Curve Engine - Portfolio Portal Matrix
 
-An interactive, multi-dashboard forecasting application that bridges advanced data analytics with practical revenue operations strategy. This suite hosts individual operational environments for the **Bass Diffusion Method** and the **Gompertz Growth Model**, serving as a predictive command center to optimize sales headcount planning and protect corporate capital.
-
----
-# Nexus Curve Engine - Portfolio Portal Matrix
-
 ![Visits](https://komarev.com)
 
 An interactive, multi-dashboard forecasting application that bridges advanced data analytics with practical revenue operations strategy. This suite hosts individual operational environments for the **Bass Diffusion Method** and the **Gompertz Growth Model**, serving as a predictive command center to optimize sales headcount planning and protect corporate capital.
 
 ---
+# System Interface Walkthrough
 
+
+---
+
+![System Walkthrough Matrix] (https://github.com/user-attachments/assets/e49ffac0-4dca-451c-b64a-da2e8b480f36)
+
+---
 ## 🔑 Live Sandbox Access Credentials
 
 To test the interactive, secure deployment of the Nexus Curve Engine, navigate to the live URL and use the dedicated onboarding profiles below:
