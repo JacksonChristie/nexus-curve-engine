@@ -91,10 +91,10 @@ This system utilizes **GitHub Pages** to serve a live, interactive web applicati
 This project is governed by a **Source-Available Academic and Non-Commercial License**.
 
 * **Permitted Use:** Academic learning, classroom demonstration, individual student research, and non-revenue-generating development are permitted and warmly encouraged.
-* **Restricted Use:** Commercial enterprise forecasting, corporate headcount planning, or deployment within paid consulting frameworks requires prior explicit consent and a separate commercial license from the author.
+* **Commercial & Production Restrictions:** Commercial enterprise forecasting, corporate headcount planning, or deployment within paid consulting frameworks requires prior explicit consent and a separate commercial license from the author.
 
 ---
 
 ## 👥 About the Author
 
-Built by a data-driven **Sales Operations Manager** leveraging **3 years of management experience** and **2 years as an award-winning Sales Account Specialist**. Holding formal credentials in **Google Data Analytics** and **Google Cybersecurity**, I design operational architectures that balance rigorous technical analytics with real-world sales floor execution.
+Built by a data-driven **Sales Operations Manager** leveraging **3 years of management experience (1.5 years in Flagship Operations Leadership)** and **2 years as an award-winning Sales Account Specialist**. Holding formal credentials in **Google Data Analytics** and **Google Cybersecurity**, I design operational architectures that balance rigorous technical analytics with real-world sales floor execution.
