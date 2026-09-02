@@ -1,6 +1,6 @@
 # Nexus Curve Engine - Portfolio Portal Matrix
 
-![Visits](https://komarev.com)
+![Visits](https://komarev.com/ghpvc/?username=JacksonChristie)
 
 An interactive, multi-dashboard forecasting application that bridges advanced data analytics with practical revenue operations strategy. This suite hosts individual operational environments for the **Bass Diffusion Method** and the **Gompertz Growth Model**, serving as a predictive command center to optimize sales headcount planning and protect corporate capital.
 
