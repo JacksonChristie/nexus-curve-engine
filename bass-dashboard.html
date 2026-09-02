@@ -376,21 +376,27 @@ return Math.round(num).toString();
 }
 
 function calculateBass(m, p, q, t) {
-const data = [];
-for (let month = 0; month <= t; month++) {
-const exp_term = Math.exp(-(p + q) * month);
-const N_t = (m * (1 - exp_term)) / (1 + (q / p) * exp_term);
+    const data = [];
+    let N_prev = 0;
 
-const dN_dt = (p * m * (p + q) * (p + q) * exp_term) /
-Math.pow(p + q * exp_term, 2);
+    for (let month = 0; month <= t; month++) {
+        const exp_term = Math.exp(-(p + q) * month);
+        const N_t = (m * (1 - exp_term)) / (1 + (q / p) * exp_term);
 
-data.push({
-month: month,
-cumulative: Math.max(0.01, N_t),
-monthly: Math.max(0, dN_dt)
-});
+        // Explicit baseline: Month 0 has 0 growth. 
+        // Subsequent months compute the difference cleanly.
+        const monthly = month === 0 ? 0 : Math.max(0, N_t - N_prev);
+
+        data.push({
+            month: month,
+            cumulative: Math.max(0, N_t), // Protect against floating-point micro-negatives
+            monthly: monthly
+        });
+
+        N_prev = N_t;
+    }
+    return data;
 }
-return data;
 }
 
 function setScenario(scenario) {
